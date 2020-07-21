@@ -1,0 +1,159 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Assinatura API",
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "/laravel-api-swagger/public/api"
+        }
+    ],
+    "paths": {
+        "/blogs": {
+            "get": {
+                "summary": "Listagem de blogs",
+                "operationId": "App\\Http\\Controllers\\BlogController::index",
+                "responses": {
+                    "200": {
+                        "description": "Lista todas as postagens do blog"
+                    }
+                }
+            },
+            "post": {
+                "summary": "Cadastro de blogs",
+                "operationId": "App\\Http\\Controllers\\BlogController::store",
+                "requestBody": {
+                    "description": "Input data format",
+                    "content": {
+                        "application/x-www-form-urlencoded": {
+                            "schema": {
+                                "required": [
+                                    "nm_blog",
+                                    "ds_blog"
+                                ],
+                                "properties": {
+                                    "nm_blog": {
+                                        "description": "Nome do blog",
+                                        "type": "string"
+                                    },
+                                    "ds_blog": {
+                                        "description": "Descrição do blog",
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "JSON com o blog criado"
+                    }
+                }
+            }
+        },
+        "/blogs/{cd_blog}": {
+            "get": {
+                "summary": "Listar um blog pelo código",
+                "operationId": "App\\Http\\Controllers\\BlogController::show",
+                "parameters": [
+                    {
+                        "name": "cd_blog",
+                        "in": "path",
+                        "description": "Código do blog a ser listado",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Mostrará o blog"
+                    },
+                    "404": {
+                        "description": "Blog não encontrado"
+                    }
+                }
+            },
+            "put": {
+                "summary": "Atualizar um blog pelo código",
+                "operationId": "App\\Http\\Controllers\\BlogController::update",
+                "parameters": [
+                    {
+                        "name": "cd_blog",
+                        "in": "path",
+                        "description": "Código do blog a ser atualizado",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64",
+                            "example": 1
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "description": "Input data format",
+                    "content": {
+                        "application/x-www-form-urlencoded": {
+                            "schema": {
+                                "required": [
+                                    "nm_blog",
+                                    "ds_blog"
+                                ],
+                                "properties": {
+                                    "nm_blog": {
+                                        "description": "Nome do blog",
+                                        "type": "string"
+                                    },
+                                    "ds_blog": {
+                                        "description": "Descrição do blog",
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Mostrará o blog atualizado"
+                    },
+                    "404": {
+                        "description": "Blog não encontrado"
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Deletar um blog pelo código",
+                "operationId": "App\\Http\\Controllers\\BlogController::destroy",
+                "parameters": [
+                    {
+                        "name": "cd_blog",
+                        "in": "path",
+                        "description": "Código do blog a ser deletado",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Blog excluído com sucesso"
+                    },
+                    "404": {
+                        "description": "Blog não encontrado"
+                    }
+                }
+            }
+        }
+    }
+}
