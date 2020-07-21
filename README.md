@@ -1,6 +1,6 @@
 <h1 align="center">
-  <img src="https://res.cloudinary.com/dtfbvvkyp/image/upload/v1566331377/laravel-logolockup-cmyk-red.svg" width="400">
-  <img src="https://res.cloudinary.com/andriusmartini/image/upload/v1595374098/readmes/laravel-api-swagger/swagger_mfhqge.png" width="400">
+  <img src="https://res.cloudinary.com/dtfbvvkyp/image/upload/v1566331377/laravel-logolockup-cmyk-red.svg" width="400" height="110">
+  <img src="https://res.cloudinary.com/andriusmartini/image/upload/v1595374098/readmes/laravel-api-swagger/swagger_mfhqge.png" width="380" height="110">
   
   <br>
   
