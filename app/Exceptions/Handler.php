@@ -2,8 +2,13 @@
 
 namespace App\Exceptions;
 
-use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Throwable;
+use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
+use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Lang;
 
 class Handler extends ExceptionHandler
 {
@@ -46,10 +51,44 @@ class Handler extends ExceptionHandler
      * @param  \Throwable  $exception
      * @return \Symfony\Component\HttpFoundation\Response
      *
+     * @OA\Schema(
+     *   schema="Erro",
+     *   type="object",
+     *   @OA\Property(
+     *     property="error",
+     *     description="Mensagem de erro/validação.",
+     *     type="string",
+     *   ),
+     * )
+     *
      * @throws \Throwable
      */
     public function render($request, Throwable $exception)
     {
-        return parent::render($request, $exception);
+        if ($exception instanceof ModelNotFoundException) {
+            $message = Lang::get('exceptions.model_not_found', ['model' => $exception->getModel(), 'codigo' => $exception->getIds()[0] ?? '']);
+
+            return response()->json(['error' => $message ?? 'Registro não encontrado.'], JsonResponse::HTTP_NOT_FOUND);
+        }
+
+        if ($exception instanceof MethodNotAllowedHttpException) {
+            $message = Lang::get('exceptions.method_not_allowed', ['metodo' => $request->method(), 'suportados' => $exception->getHeaders()["Allow"] ?? '']);
+
+            return response()->json(['error' => $message ?? 'Método não permitido.'], $exception->getStatusCode());
+        }
+
+        if ($exception instanceof UnauthorizedHttpException) {
+            return response()->json(['error' => $exception->getMessage()], JsonResponse::HTTP_UNAUTHORIZED);
+        }
+
+        if ($exception->getMessage() == '') {
+            return response()->json(['error' => 'Acesso Negado.'], JsonResponse::HTTP_FORBIDDEN);
+        }
+
+        if ($exception->getCode() == '23000') {
+            return response()->json(['error' => 'Unable to delete data that has 1 or more reference(s).'], JsonResponse::HTTP_BAD_REQUEST);
+        }
+
+        return response()->json(['error' => $exception->getMessage()], JsonResponse::HTTP_BAD_REQUEST);
     }
 }

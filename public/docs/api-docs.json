@@ -1,7 +1,7 @@
 {
     "openapi": "3.0.0",
     "info": {
-        "title": "Assinatura API",
+        "title": "Serviços Assinatura",
         "version": "1.0.0"
     },
     "servers": [
@@ -10,59 +10,81 @@
         }
     ],
     "paths": {
-        "/blogs": {
+        "/posts": {
             "get": {
-                "summary": "Listagem de blogs",
-                "operationId": "App\\Http\\Controllers\\BlogController::index",
+                "tags": [
+                    "Posts"
+                ],
+                "summary": "Listagem de Posts",
+                "operationId": "App\\Http\\Controllers\\PostController::index",
                 "responses": {
                     "200": {
-                        "description": "Lista todas as postagens do blog"
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Post"
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
             },
             "post": {
-                "summary": "Cadastro de blogs",
-                "operationId": "App\\Http\\Controllers\\BlogController::store",
+                "tags": [
+                    "Posts"
+                ],
+                "summary": "Cadastro de posts",
+                "operationId": "App\\Http\\Controllers\\PostController::store",
                 "requestBody": {
-                    "description": "Input data format",
+                    "description": "Dados para requisição",
                     "content": {
                         "application/x-www-form-urlencoded": {
                             "schema": {
-                                "required": [
-                                    "nm_blog",
-                                    "ds_blog"
-                                ],
-                                "properties": {
-                                    "nm_blog": {
-                                        "description": "Nome do blog",
-                                        "type": "string"
-                                    },
-                                    "ds_blog": {
-                                        "description": "Descrição do blog",
-                                        "type": "string"
-                                    }
-                                },
-                                "type": "object"
+                                "$ref": "#/components/schemas/PostRequisicao"
                             }
                         }
                     }
                 },
                 "responses": {
-                    "200": {
-                        "description": "JSON com o blog criado"
+                    "201": {
+                        "description": "Post salvo com sucesso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Post"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Falha de validação",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Erro"
+                                }
+                            }
+                        }
                     }
                 }
             }
         },
-        "/blogs/{cd_blog}": {
+        "/posts/{cd_post}": {
             "get": {
-                "summary": "Listar um blog pelo código",
-                "operationId": "App\\Http\\Controllers\\BlogController::show",
+                "tags": [
+                    "Posts"
+                ],
+                "summary": "Lista um post pelo código",
+                "operationId": "App\\Http\\Controllers\\PostController::show",
                 "parameters": [
                     {
-                        "name": "cd_blog",
+                        "name": "cd_post",
                         "in": "path",
-                        "description": "Código do blog a ser listado",
+                        "description": "Código do post a ser listado",
                         "required": true,
                         "schema": {
                             "type": "integer",
@@ -73,21 +95,38 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "Mostrará o blog"
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Post"
+                                }
+                            }
+                        }
                     },
                     "404": {
-                        "description": "Blog não encontrado"
+                        "description": "Post não encontrado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Erro"
+                                }
+                            }
+                        }
                     }
                 }
             },
             "put": {
-                "summary": "Atualizar um blog pelo código",
-                "operationId": "App\\Http\\Controllers\\BlogController::update",
+                "tags": [
+                    "Posts"
+                ],
+                "summary": "Atualizar um post pelo código",
+                "operationId": "App\\Http\\Controllers\\PostController::update",
                 "parameters": [
                     {
-                        "name": "cd_blog",
+                        "name": "cd_post",
                         "in": "path",
-                        "description": "Código do blog a ser atualizado",
+                        "description": "Código do post a ser atualizado",
                         "required": true,
                         "schema": {
                             "type": "integer",
@@ -97,46 +136,59 @@
                     }
                 ],
                 "requestBody": {
-                    "description": "Input data format",
+                    "description": "Dados para requisição",
                     "content": {
                         "application/x-www-form-urlencoded": {
                             "schema": {
-                                "required": [
-                                    "nm_blog",
-                                    "ds_blog"
-                                ],
-                                "properties": {
-                                    "nm_blog": {
-                                        "description": "Nome do blog",
-                                        "type": "string"
-                                    },
-                                    "ds_blog": {
-                                        "description": "Descrição do blog",
-                                        "type": "string"
-                                    }
-                                },
-                                "type": "object"
+                                "$ref": "#/components/schemas/PostRequisicao"
                             }
                         }
                     }
                 },
                 "responses": {
                     "200": {
-                        "description": "Mostrará o blog atualizado"
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Post"
+                                }
+                            }
+                        }
                     },
                     "404": {
-                        "description": "Blog não encontrado"
+                        "description": "Post não encontrado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Erro"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Falha de validação",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Erro"
+                                }
+                            }
+                        }
                     }
                 }
             },
             "delete": {
-                "summary": "Deletar um blog pelo código",
-                "operationId": "App\\Http\\Controllers\\BlogController::destroy",
+                "tags": [
+                    "Posts"
+                ],
+                "summary": "Deletar um post pelo código",
+                "operationId": "App\\Http\\Controllers\\PostController::destroy",
                 "parameters": [
                     {
-                        "name": "cd_blog",
+                        "name": "cd_post",
                         "in": "path",
-                        "description": "Código do blog a ser deletado",
+                        "description": "Código do post a ser deletado",
                         "required": true,
                         "schema": {
                             "type": "integer",
@@ -147,12 +199,74 @@
                 ],
                 "responses": {
                     "204": {
-                        "description": "Blog excluído com sucesso"
+                        "description": "Post deletado com sucesso"
                     },
                     "404": {
-                        "description": "Blog não encontrado"
+                        "description": "Post não encontrado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Erro"
+                                }
+                            }
+                        }
                     }
                 }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "Erro": {
+                "properties": {
+                    "error": {
+                        "description": "Mensagem de erro/validação.",
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "PostRequisicao": {
+                "required": [
+                    "nm_post",
+                    "ds_post"
+                ],
+                "properties": {
+                    "nm_post": {
+                        "description": "Nome do post",
+                        "type": "string"
+                    },
+                    "ds_post": {
+                        "description": "Descrição do post",
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "Post": {
+                "properties": {
+                    "cd_post": {
+                        "description": "Código do post",
+                        "type": "integer"
+                    },
+                    "nm_post": {
+                        "description": "Nome do post",
+                        "type": "string"
+                    },
+                    "ds_post": {
+                        "description": "Descrição do post",
+                        "type": "string"
+                    },
+                    "created_at": {
+                        "description": "Data de criação do Post",
+                        "type": "string"
+                    },
+                    "updated_at": {
+                        "description": "Data de atualização do Post",
+                        "type": "string"
+                    }
+                },
+                "type": "object"
             }
         }
     }
