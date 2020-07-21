@@ -12,26 +12,26 @@ This is a Laravel API for tests with Swagger
 
 ## 🛠 How to install
 ```shell
-#clone this repo
+# clone this repo
 git clone https://github.com/andrius111/laravel-api-swagger.git
 
-#enter in the directory
+# enter in the directory
 cd laravel-api-swagger
 
-#install dependencies
+# install dependencies
 composer install
 
-#create the .env file
+# create the .env file
 cp .env.example .env
 
-#generate the key
+# generate the key
 php artisan key:generate
 
-#generate the database tables
+# generate the database tables
 php artisan migrate
 ```
 
-## 📷 Screenshot
+## 📷 Screenshots
 <p align="center">
   <img alt="Swagger Screenshot" src="https://res.cloudinary.com/andriusmartini/image/upload/v1595352383/readmes/laravel-api-swagger/Captura_de_Tela_2020-07-21_a%CC%80s_14.18.20_i7uz1b.png">
 </p>
