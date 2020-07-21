@@ -9,7 +9,7 @@
 
   /**
    * @OA\Info(
-   *   title="Serviços Assinatura",
+   *   title="Posts API",
    *   version="1.0.0",
    * )
    */
