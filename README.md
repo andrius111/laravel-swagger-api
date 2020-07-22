@@ -14,10 +14,10 @@ This is a Laravel API for tests with Swagger
 ## 🛠 How to install
 ```shell
 # clone this repo
-git clone https://github.com/andrius111/laravel-api-swagger.git
+git clone https://github.com/andrius111/laravel-swagger-api.git
 
 # enter in the directory
-cd laravel-api-swagger
+cd laravel-swagger-api
 
 # install dependencies
 composer install
@@ -29,6 +29,9 @@ cp .env.example .env
 php artisan key:generate
 
 # set the config of the database in .env file
+
+# set the base path of the project in L5_SWAGGER_BASE_PATH variable in the .env file
+L5_SWAGGER_BASE_PATH=/laravel-swagger-api/public/api
 
 # generate the database tables
 php artisan migrate
