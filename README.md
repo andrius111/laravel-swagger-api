@@ -28,6 +28,8 @@ cp .env.example .env
 # generate the key
 php artisan key:generate
 
+# set the config of the database in .env file
+
 # generate the database tables
 php artisan migrate
 ```
